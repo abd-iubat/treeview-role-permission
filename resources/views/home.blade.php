@@ -15,48 +15,24 @@
                         @endif
 
                         <table id="userDataTable">
-
+                            <thead>
+                                <tr>
+                                    <td>#SL</td>
+                                    <td>Name</td>
+                                    <td>Email</td>
+                                    <td>Created</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div>
-        <input id="bstree-data" type="hidden" name="bstree-data" data-ancestors="ALS:IDF">
-        <div id="mytree" class="bstree">
-            <ul>
-                <li data-id="root" data-level="0"><span>Root</span>
-                   <ul>
-                       {!! $permission_tree !!}
-                   </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
 @endsection
 @push('js')
     <script type="text/javascript">
-        $('document').ready(function () {
-            $hiddenInput = $('#bstree-data');
-            $('#mytree').bstree({
-                dataSource: $hiddenInput,
-                initValues: $hiddenInput.data('ancestors'),
-                onDataPush: function (values) {
-                    var def = '<strong class="pull-left">Values:&nbsp;</strong>'
-                    for (var i in values) {
-                        def += '<span class="pull-left">' + values[i] + '&nbsp;</span>'
-                    }
-                    $('#status').html(def)
-                },
-                // updateNodeTitle: function (node, title) {
-                //     return '[' + node.attr('data-id') + '] ' + title + ' (' + node.attr('data-level') + ')'
-                // }
-            });
-
-        })
-
-
         var userDataTable = null;
         $(window).on("load", function () {
             userDataTable = $('#userDataTable').DataTable({
@@ -78,6 +54,11 @@
                     {data: "name", name: 'name'},
                     {data: "email", name: 'email'},
                     {data: "created_at"},
+                    {
+                        'render' : function(data, type, row, ind){
+                            return '<a href="{{url("/user")}}/'+row.id+'" class="btn btn-primary">Edit</a>'
+                        }
+                    },
 
                 ],
                 columnDefs: [

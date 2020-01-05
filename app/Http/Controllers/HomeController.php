@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -25,67 +26,63 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $permission_tree = [];
-        $permissions = Permission::orderBy('order')->get()->toArray();
-
-//        foreach($permissions as $row) {
-//            $pid  = ($row->menu_id == NULL || $row->menu_id == "")?0:$row->menu_id;
-//            $id   = $row->id;
-//            $name = $row->description;
-//
-//            // Create or add child information to the parent node
-//            if (isset($permission_tree[$pid]))
-//                // a node for the parent exists
-//                // add another child id to this parent
-//                $permission_tree[$pid]["children"][] = $id;
-//            else
-//                // create the first child to this parent
-//                $permission_tree[$pid] = array("children"=>array($id));
-//
-//            // Create or add name information for current node
-//            if (isset($permission_tree[$id]))
-//                // a node for the id exists:
-//                // set the name of current node
-//                $permission_tree[$id]["name"] = $name;
-//            else
-//                // create the current node and give it a name
-//                $permission_tree[$id] = array( "name"=>$name );
-//        }
-//dd($permissions);
-
-        $permission_tree = $this->buildTree($permissions);
-
-
         if ($request->wantsJson()) {
             $user = new User();
             return $user->DataTableLoader($request);
         }
         else {
-            //ksort($permission_tree);
-            //dd($permission_tree);
-            return view('home', compact('permission_tree'));
+            return view('home');
         }
     }
 
-//    public function buildTree(array $elements, $parentId = 0) {
-//
-//        $branch = array();
-//
-//        foreach ($elements as $element) {
-//            if ($element['parent_id'] == $parentId) {
-//                $children = $this->buildTree($elements, $element['id']);
-//                if ($children) {
-//                    dd($children);
-//                    $element['children'] = $children;
-//                }
-//                $branch[] = $element;
-//            }
-//        }
-//
-//        return $branch;
-//    }
 
-    public function buildTree(array $elements, $level = 1, $parentId = 0) {
+    /**
+     * Edit user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit(Request $request, $id)
+    {
+        $permissions = Permission::orderBy('order')->get()->toArray();
+        $roles = Role::orderBy('created_at')->get();
+
+        //prepare tree with HTML
+        $html_tree = $this->buildTree($permissions);
+        $user = User::findOrFail($id);
+        $user_roles = [];
+        $assigned_roles = $user->roles;
+        foreach($assigned_roles as $assigned_role){
+            $user_roles[] = $assigned_role->id;
+        }
+
+        $user_permissions = $user->getAllPermissions();
+
+        return view('user_edit',compact('html_tree','user', 'user_permissions', 'roles', 'user_roles'));
+    }
+
+    /**
+     * Update user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['name' => $request->name]);
+        $permissions = array_map('intval', explode(':', $request->permissions));
+        $user->syncPermissions($permissions);
+        $user->roles()->sync($request->roles);
+        return redirect()->route('home');
+    }
+
+
+
+    /**
+     * Prepare tree data for tree view permission
+     *
+     * @return HTML
+     */
+    protected function buildTree(array $elements, $level = 1, $parentId = 0) {
 
         $branch = NULL;
 

@@ -7,11 +7,11 @@ use Abd\LaraAjaxTable\Models\LaraAjaxTable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable, LaraAjaxTable;
-
+    use Notifiable, LaraAjaxTable, HasRoles;
     /**
      * The attributes that are mass assignable.
      *

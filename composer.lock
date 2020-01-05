@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/abd-iubat/lara-ajax-table.git",
-                "reference": "e08aec44ff2cf0304537ba0dbd51634631d3aaee"
+                "reference": "3f4c9de5ad51fb6bf8c7ca214cfc518818c4da0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abd-iubat/lara-ajax-table/zipball/e08aec44ff2cf0304537ba0dbd51634631d3aaee",
-                "reference": "e08aec44ff2cf0304537ba0dbd51634631d3aaee",
+                "url": "https://api.github.com/repos/abd-iubat/lara-ajax-table/zipball/3f4c9de5ad51fb6bf8c7ca214cfc518818c4da0c",
+                "reference": "3f4c9de5ad51fb6bf8c7ca214cfc518818c4da0c",
                 "shasum": ""
             },
             "type": "library",
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "This package is use for datatable ajax serverside with laravel",
-            "time": "2019-12-27T19:17:59+00:00"
+            "time": "2020-01-05T15:34:58+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -718,16 +718,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.62",
+            "version": "1.0.63",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "14dd5d7dff5fbc29ca9a2a53ff109760e40d91a0"
+                "reference": "8132daec326565036bc8e8d1876f77ec183a7bd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/14dd5d7dff5fbc29ca9a2a53ff109760e40d91a0",
-                "reference": "14dd5d7dff5fbc29ca9a2a53ff109760e40d91a0",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8132daec326565036bc8e8d1876f77ec183a7bd6",
+                "reference": "8132daec326565036bc8e8d1876f77ec183a7bd6",
                 "shasum": ""
             },
             "require": {
@@ -798,7 +798,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-12-29T14:46:55+00:00"
+            "time": "2020-01-04T16:30:31+00:00"
         },
         {
             "name": "monolog/monolog",
